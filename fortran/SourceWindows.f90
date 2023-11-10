@@ -34,6 +34,13 @@
         Type(TCubicSpline), allocatable :: Bias_z
         Type(TInterpGrid2D), allocatable :: Bias_zk
         real(dl) :: maxwin
+
+        ! ! JMedit start
+        ! real(dl) :: zpeak_input = -1._dl
+        ! real(dl) :: zpeakstart_input = -1._dl
+        ! real(dl) :: zpeakend_input = -1._dl
+        ! real(dl) :: sigma_z_input = -1._dl
+        ! ! JMedit end
     contains
     procedure, nopass :: SelfPointer => TSplinedSourceWindow_SelfPointer
     procedure :: count_obs_window_z => TSplinedSourceWindow_count_obs_window_z

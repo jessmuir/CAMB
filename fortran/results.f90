@@ -524,7 +524,27 @@
             Win => this%Redshift_w(nu_i)
             Win%Window => this%CP%SourceWindows(nu_i)%Window
             Win%kind = Win%Window%source_type
+            ! JMedit start
+            ! Have any of the input zscale parameters been set to a non-default value?
+            ! if ((Win%Window%zpeak_input >=0).OR.(Win%Window%zpeakstart_input >=0).OR.(Win%Window%zpeakend_input >=0).OR.(Win%Window%sigma_z_input >=0)) then
+            !    ! If we've set any of these, need to set all
+            !    if ((Win%Window%zpeak_input >=0).AND.(Win%Window%zpeakstart_input >=0).AND.(Win%Window%zpeakend_input >=0).AND.(Win%Window%sigma_z_input >=0)) then
+            !       if (FeedbackLevel > 1) then
+            !          write(*,*) '--> Setting window scales based on manual inputs'
+            !       end if
+            !       zpeak = Win%Window%zpeak_input
+            !       sigma_z = Win%Window%sigma_z_input
+            !       zpeakstart = Win%Window%zpeakstart_input
+            !       zpeakend = Win%Window%zpeakend_input
+            !    else
+            !       call GlobalError('If setting input window scales, need to set all four of zpeak_input, sigma_z_input, zpeakstart_input and zpeakend_input', error_unsupported_params)
+            !    end if
+
+            ! else
+            !    call Win%Window%GetScales(zpeak, sigma_z, zpeakstart, zpeakend)
+            ! end if
             call Win%Window%GetScales(zpeak, sigma_z, zpeakstart, zpeakend)
+            ! JMedit end
             if (FeedbackLevel > 1) then
                 write(*,*) FormatString('Window scales: %d peak: %f, sigma: %f, start:%f, end %f', &
                     nu_i, zpeak, sigma_z, zpeakstart, zpeakend)
