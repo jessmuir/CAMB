@@ -526,24 +526,25 @@
             Win%kind = Win%Window%source_type
             ! JMedit start
             ! Have any of the input zscale parameters been set to a non-default value?
-            ! if ((Win%Window%zpeak_input >=0).OR.(Win%Window%zpeakstart_input >=0).OR.(Win%Window%zpeakend_input >=0).OR.(Win%Window%sigma_z_input >=0)) then
-            !    ! If we've set any of these, need to set all
-            !    if ((Win%Window%zpeak_input >=0).AND.(Win%Window%zpeakstart_input >=0).AND.(Win%Window%zpeakend_input >=0).AND.(Win%Window%sigma_z_input >=0)) then
-            !       if (FeedbackLevel > 1) then
-            !          write(*,*) '--> Setting window scales based on manual inputs'
-            !       end if
-            !       zpeak = Win%Window%zpeak_input
-            !       sigma_z = Win%Window%sigma_z_input
-            !       zpeakstart = Win%Window%zpeakstart_input
-            !       zpeakend = Win%Window%zpeakend_input
-            !    else
-            !       call GlobalError('If setting input window scales, need to set all four of zpeak_input, sigma_z_input, zpeakstart_input and zpeakend_input', error_unsupported_params)
-            !    end if
+            if ((Win%Window%zpeak_input >=0).OR.(Win%Window%zpeakstart_input >=0).OR.(Win%Window%zpeakend_input >=0).OR.(Win%Window%sigma_z_input >=0)) then
+               ! If we've set any of these, need to set all
+               if ((Win%Window%zpeak_input >=0).AND.(Win%Window%zpeakstart_input >=0).AND.(Win%Window%zpeakend_input >=0).AND.(Win%Window%sigma_z_input >=0)) then
+                  if (FeedbackLevel > 1) then
+                     write(*,*) '--> Setting window scales based on manual inputs'
+                  end if
+                  zpeak = Win%Window%zpeak_input
+                  sigma_z = Win%Window%sigma_z_input
+                  zpeakstart = Win%Window%zpeakstart_input
+                  zpeakend = Win%Window%zpeakend_input
 
-            ! else
-            !    call Win%Window%GetScales(zpeak, sigma_z, zpeakstart, zpeakend)
-            ! end if
-            call Win%Window%GetScales(zpeak, sigma_z, zpeakstart, zpeakend)
+               else
+                  call GlobalError('If setting input window scales, need to set all four of zpeak_input, sigma_z_input, zpeakstart_input and zpeakend_input', error_unsupported_params)
+               end if
+
+            else
+               call Win%Window%GetScales(zpeak, sigma_z, zpeakstart, zpeakend)
+            end if
+            ! call Win%Window%GetScales(zpeak, sigma_z, zpeakstart, zpeakend)
             ! JMedit end
             if (FeedbackLevel > 1) then
                 write(*,*) FormatString('Window scales: %d peak: %f, sigma: %f, start:%f, end %f', &
@@ -562,7 +563,7 @@
             if (Win%Window%source_type==window_counts .and. P%SourceTerms%counts_lensing) then
                 this%num_extra_redshiftwindows = this%num_extra_redshiftwindows + 1
                 Win%mag_index = this%num_extra_redshiftwindows
-            end if
+             end if
             !$OMP END CRITICAL
         end do
         if (eta_k /= this%CP%Max_eta_k .and. FeedbackLevel>0) &
@@ -574,12 +575,10 @@
         this%CP%Transfer%kmax =this%CP%Max_eta_k/this%tau0
         if (FeedbackLevel > 0) write (*,*) 'kmax changed to ', this%CP%Transfer%kmax
     end if
-
     if (global_error_flag/=0) then
         if (present(error)) error = global_error_flag
         return
     end if
-
     if (present(error)) then
         error = 0
     else if (FeedbackLevel > 0 .and. .not. calling_again) then
@@ -602,7 +601,6 @@
             end do
         end if
     end if
-
     end subroutine CAMBdata_SetParams
 
     subroutine CAMBdata_Free(this)

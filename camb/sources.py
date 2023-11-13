@@ -9,10 +9,15 @@ class SourceWindow(F2003Class):
 
     Note that source windows can currently only be used in flat models.
     """
+    #  # #JMedit start
     _fields_ = [("source_type", c_int, {"names": ["21cm", "counts", "lensing"], "start": 1}),
                 ("bias", c_double),
-                ("dlog10Ndm", c_double)]
-
+                ("dlog10Ndm", c_double),
+                ("zpeak_input", c_double),
+                ("sigma_z_input", c_double),
+                ("zpeakstart_input", c_double),
+                ("zpeakend_input", c_double)]
+    # # # JMedit end
     _fortran_class_module_ = "SourceWindows"
     _fortran_class_name_ = "TSourceWindow"
 
@@ -33,12 +38,12 @@ class SplinedSourceWindow(SourceWindow):
     """
     A numerical W(z) source window function constructed by interpolation from a numerical table.
     """
-     # #JMedit start
+
     # _fields_ = [("zpeak_input", c_double),
     #             ("sigma_z_input", c_double),
     #             ("zpeakstart_input", c_double),
     #             ("zpeakend_input", c_double)]
-    # # JMedit end
+    # # # JMedit end
     _fortran_class_name_ = "TSplinedSourceWindow"
 
     _methods_ = [("SetTable", [POINTER(c_int), numpy_1d, numpy_1d, numpy_1d_or_null]),

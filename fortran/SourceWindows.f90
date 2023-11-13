@@ -11,6 +11,13 @@
         integer :: source_type = window_counts
         real(dl) :: bias = 1._dl
         real(dl) :: dlog10Ndm = 0._dl
+
+         ! ! JMedit start
+        real(dl) :: zpeak_input = -1._dl
+        real(dl) :: sigma_z_input = -1._dl
+        real(dl) :: zpeakstart_input = -1._dl
+        real(dl) :: zpeakend_input = -1._dl
+        ! ! JMedit end
     contains
     procedure :: count_obs_window_z
     procedure :: Window_f_a
@@ -35,12 +42,7 @@
         Type(TInterpGrid2D), allocatable :: Bias_zk
         real(dl) :: maxwin
 
-        ! ! JMedit start
-        ! real(dl) :: zpeak_input = -1._dl
-        ! real(dl) :: zpeakstart_input = -1._dl
-        ! real(dl) :: zpeakend_input = -1._dl
-        ! real(dl) :: sigma_z_input = -1._dl
-        ! ! JMedit end
+       
     contains
     procedure, nopass :: SelfPointer => TSplinedSourceWindow_SelfPointer
     procedure :: count_obs_window_z => TSplinedSourceWindow_count_obs_window_z
